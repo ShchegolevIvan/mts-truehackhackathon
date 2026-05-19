@@ -1,6 +1,9 @@
 import pytest
+import allure
 
 
+@allure.feature("Chat Sessions")
+@allure.story("Get chat sessions")
 @pytest.mark.api
 def test_get_chat_sessions_returns_200(api_client):
     response = api_client.get("/chat/sessions")
@@ -8,6 +11,8 @@ def test_get_chat_sessions_returns_200(api_client):
     assert response.status_code == 200
 
 
+@allure.feature("Chat Sessions")
+@allure.story("Get chat sessions")
 @pytest.mark.api
 def test_get_chat_sessions_returns_list(api_client):
     response = api_client.get("/chat/sessions")
@@ -15,7 +20,8 @@ def test_get_chat_sessions_returns_list(api_client):
 
     assert isinstance(body, list)
 
-
+@allure.feature("Chat Sessions")
+@allure.story("Get chat sessions")
 @pytest.mark.api
 def test_get_unknown_session_runs_returns_empty_list(api_client):
     response = api_client.get("/chat/sessions/unknown-session-id/runs")
@@ -25,6 +31,8 @@ def test_get_unknown_session_runs_returns_empty_list(api_client):
     assert body == []
 
 
+@allure.feature("Chat Sessions")
+@allure.story("Get chat sessions")
 @pytest.mark.api
 @pytest.mark.negative
 def test_get_unknown_session_history_returns_404(api_client):
@@ -32,6 +40,8 @@ def test_get_unknown_session_history_returns_404(api_client):
 
     assert response.status_code in (404, 422)
 
+@allure.feature("Chat Sessions")
+@allure.story("Get chat sessions")
 @pytest.mark.api
 @pytest.mark.negative
 def test_get_unknown_session_returns_404(api_client):
@@ -39,6 +49,8 @@ def test_get_unknown_session_returns_404(api_client):
 
     assert response.status_code == 404
 
+@allure.feature("Chat Sessions")
+@allure.story("Get chat sessions")
 @pytest.mark.api
 def test_chat_session_item_has_required_fields(api_client):
     response = api_client.get("/chat/sessions")
@@ -58,6 +70,8 @@ def test_chat_session_item_has_required_fields(api_client):
     assert "updated_at" in session
 
 
+@allure.feature("Chat Sessions")
+@allure.story("Get chat sessions")
 @pytest.mark.api
 def test_chat_session_field_types(api_client):
     response = api_client.get("/chat/sessions")
