@@ -80,6 +80,76 @@ MTC-TrueTechHack/
 The backend is responsible for executing the pipeline, while the frontend provides an interface for user interaction and visualization of results.
 
 ---
+## QA Automation
+
+This repository includes an automated testing layer for the FastAPI backend and Vite frontend. The project contains API automation, UI smoke tests, CI/CD pipelines, Allure reporting, and Docker-based test infrastructure.
+
+### Test Coverage
+
+#### API tests
+
+- health check smoke tests
+- API availability checks
+- OpenAPI contract checks
+- negative validation tests
+- chat sessions tests
+- runs endpoint tests
+- response schema checks
+- basic response time checks
+
+#### UI tests
+
+- chat page smoke test
+- prompt input check
+- prompt submission flow
+- new run creation check
+
+### Tools
+
+- Python
+- Pytest
+- Requests
+- Allure
+- Playwright
+- GitHub Actions
+- Docker Compose
+
+### Run Project Locally
+
+Start backend, frontend and database:
+
+```bash```
+```docker compose up -d --build db app frontend```
+Backend is available at http://localhost:8000.
+
+Frontend is available at http://localhost:5173.
+
+Run API Tests Locally:
+```pytest tests/api -v```
+
+Run API tests with Allure results:
+```pytest tests/api -v --alluredir=allure-results```
+
+Generate Allure report:
+```allure serve allure-results```
+
+Run UI Tests Locally:
+```cd ui-tests```
+```npm ci```
+```npx playwright install chromium```
+```npx playwright test```
+
+Show Playwright HTML report:
+```npx playwright show-report```
+
+CI/CD
+
+The project includes separate GitHub Actions workflows for automated checks. API and UI workflows start the required Docker services and run automated tests in CI.
+
+Notes
+
+The local LLM/Ollama mode is optional and is not required for the default API/UI smoke test suite. LLM-dependent checks should be treated as integration tests and run separately from the default CI pipeline.
+---
 
 ## Methodology: Controlled Generation Pipeline
 
