@@ -149,6 +149,7 @@ The project includes separate GitHub Actions workflows for automated checks. API
 Notes
 
 The local LLM/Ollama mode is optional and is not required for the default API/UI smoke test suite. LLM-dependent checks should be treated as integration tests and run separately from the default CI pipeline.
+
 ---
 
 ## Methodology: Controlled Generation Pipeline
