@@ -1,4 +1,14 @@
 services:
+  app:
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      USE_STUB_MODEL: "false"
+    depends_on:
+      ollama:
+        condition: service_healthy
+      ollama-init:
+        condition: service_completed_successfully
+
   ollama:
     image: ollama/ollama:latest
     ports:
@@ -21,23 +31,8 @@ services:
     depends_on:
       ollama:
         condition: service_healthy
-    command:
-      [
-        "/bin/sh",
-        "-c",
-        "set -eu; until ollama list >/dev/null 2>&1; do sleep 2; done; ollama pull \"$$OLLAMA_MODEL\"",
-      ]
-
-  app:
-    environment:
-      OLLAMA_BASE_URL: http://ollama:11434
-    depends_on:
-      db:
-        condition: service_healthy
-      ollama:
-        condition: service_healthy
-      ollama-init:
-        condition: service_completed_successfully
+    entrypoint: ["/bin/sh", "-c"]
+    command: 'set -eu; until ollama list >/dev/null 2>&1; do sleep 2; done; ollama pull "$$OLLAMA_MODEL"'
 
 volumes:
   ollama_data:

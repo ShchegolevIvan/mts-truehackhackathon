@@ -1,4 +1,4 @@
-name: API tests
+name: UI tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  api-tests:
+  ui-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,36 +20,42 @@ jobs:
       - name: Build and start services
         run: docker compose up -d --build db app frontend
 
-      - name: Wait for backend healthcheck
+      - name: Wait for frontend
         run: |
           for i in {1..30}; do
-            if curl -f http://localhost:8000/health; then
-              echo "Backend is ready"
+            if curl -f http://localhost:5173/chat; then
+              echo "Frontend is ready"
               exit 0
             fi
-            echo "Waiting for backend..."
+            echo "Waiting for frontend..."
             sleep 3
           done
-          docker compose logs app
+          docker compose logs
           exit 1
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
+          node-version: "20"
 
-      - name: Install test dependencies
-        run: pip install -r requirements-test.txt
+      - name: Install UI test dependencies
+        working-directory: ui-tests
+        run: npm ci
 
-      - name: Run API tests
-        run: pytest tests/api -v --alluredir=allure-results
+      - name: Install Playwright browsers
+        working-directory: ui-tests
+        run: npx playwright install --with-deps chromium
 
-      - name: Upload Allure results
+      - name: Run UI tests
+        working-directory: ui-tests
+        run: npx playwright test
+
+      - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results
-          path: allure-results
+          name: playwright-report
+          path: ui-tests/playwright-report
 
       - name: Show service logs on failure
         if: failure()

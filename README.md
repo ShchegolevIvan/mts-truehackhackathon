@@ -313,5 +313,5 @@ REQUEST_TIMEOUT_SECONDS
 - [Илья Матвеев](http://t.me/hep2014) - pipeline setup, backend, llm user
 - [Анастасия Кабанова](https://t.me/anastaness) - deep learning
 - [Мясников Евгений](https://t.me/Myzn1k) - data engineering
-- [Щеголев Иван](https://t.me/hep2O14) - frontend developer
+- [Щеголев Иван](https://t.me/hep2O14) - frontend developer,tests
 - [Косинский Эдуард](https://t.me/tominvst) - backend developer
